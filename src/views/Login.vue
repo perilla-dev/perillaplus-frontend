@@ -31,6 +31,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { NavigationGuardNext, Route } from 'vue-router'
 import { api } from '@/api'
+import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 
 @Component({
   beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext) {
@@ -50,6 +51,13 @@ export default class Login extends Vue {
       console.log(e)
     }
     this.loading = false
+  }
+
+  mounted() {
+    this.$store.commit(M_PATH_PUSH, { text: 'Login', to: '/login' })
+    this.$on('hook:beforeDestroy', () => {
+      this.$store.commit(M_PATH_POP)
+    })
   }
 }
 </script>

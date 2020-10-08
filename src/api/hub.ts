@@ -56,7 +56,7 @@ export class APIHub {
   }
 
   async invoke(url: string, body: any) {
-    url = '/api' + url
+    url = '/api/public' + url
     const headers: any = {
       'Content-Type': 'application/json'
     }
@@ -72,8 +72,8 @@ export class APIHub {
     }
   }
 
-  async login(username: string, pass: string) {
-    const [userId, tokenId, token] = await this.invoke('/user/login', { username, pass, desc: 'Frontend' })
+  async login(name: string, pass: string) {
+    const [userId, tokenId, token] = await this.invoke('/user/login', { name, pass, desc: 'Frontend' })
     this.state.token = token
     this.state.userId = userId
     this.state.tokenId = tokenId
