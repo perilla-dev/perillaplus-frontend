@@ -1,24 +1,6 @@
-# perillaplus-frontend
+# PerillaPlus Frontend
 
-## Project setup
-```
-yarn install
-```
+![AGPLv3](https://www.gnu.org/graphics/agplv3-155x51.png)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
