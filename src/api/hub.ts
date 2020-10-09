@@ -1,5 +1,6 @@
 import { UserAPI } from './user'
 import store, { M_LOGIN, M_LOGOUT } from '@/store'
+import { GroupAPI } from './group'
 
 const kToken = 'access-token'
 const kTokenId = 'token-id'
@@ -43,17 +44,20 @@ class PersistedState {
 
 export class APIHub {
   user
+  group
   vuex
   state
 
   constructor() {
-    this.user = new UserAPI(this)
     this.state = new PersistedState()
     this.vuex = store
 
     if (this.state.userId) {
       this.vuex.commit(M_LOGIN, this.state.userId)
     }
+
+    this.user = new UserAPI(this)
+    this.group = new GroupAPI(this)
   }
 
   async invoke(url: string, body: any) {

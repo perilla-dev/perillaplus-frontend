@@ -6,7 +6,7 @@
           <v-col cols="4">
             <v-card-title>My groups</v-card-title>
             <v-list>
-              <v-list-item v-for="(group, i) in groups" :key="i" :to="`/group/${group.id}`">
+              <v-list-item v-for="(group, i) in groups" :key="i" :to="`/group/${group.group.id}`">
                 <v-list-item-avatar>
                   <gravatar :email="group.group.email" />
                 </v-list-item-avatar>
@@ -33,11 +33,10 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { NavigationGuardNext, Route } from 'vue-router'
 import { api } from '@/api'
-import ProblemList from '@/components/ProblemList.vue'
 import Gravatar from '@/components/Gravatar.vue'
 
 @Component({
-  components: { ProblemList, Gravatar },
+  components: { Gravatar },
   beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext) {
     api.state.userId ? next() : next('/login')
   }

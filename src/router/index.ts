@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Group from '@/views/Group.vue'
 import Login from '@/views/Login.vue'
 import About from '@/views/About.vue'
+import { groupRoutes } from './group'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/group/:groupId',
     component: Group,
-    props: route => ({ ...route.params })
+    props: route => ({ ...route.params }),
+    children: groupRoutes
   },
   {
     path: '/login',
