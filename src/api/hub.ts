@@ -4,6 +4,7 @@ import store, { M_LOGIN, M_LOGOUT } from '@/store'
 const kToken = 'access-token'
 const kTokenId = 'token-id'
 const kUserId = 'user-id'
+const E_INVALID_TOKEN = 'Invalid token'
 
 class PersistedState {
   get token() {
@@ -68,6 +69,7 @@ export class APIHub {
     if (data.ok) {
       return data.result
     } else {
+      if (data.result === E_INVALID_TOKEN) this.forceLogout()
       throw new Error(data.result)
     }
   }
@@ -86,5 +88,13 @@ export class APIHub {
     this.state.userId = null
     this.state.tokenId = null
     this.vuex.commit(M_LOGOUT)
+  }
+
+  private forceLogout() {
+    this.state.token = null
+    this.state.userId = null
+    this.state.tokenId = null
+    this.vuex.commit(M_LOGOUT)
+    location.reload()
   }
 }
