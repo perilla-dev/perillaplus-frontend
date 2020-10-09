@@ -7,9 +7,11 @@
             <v-card-title>My groups</v-card-title>
             <v-list>
               <v-list-item v-for="(group, i) in groups" :key="i" :to="`/group/${group.id}`">
-                <v-list-item-avatar> </v-list-item-avatar>
+                <v-list-item-avatar>
+                  <gravatar :email="group.group.email" />
+                </v-list-item-avatar>
                 <v-list-item-content>
-                  <v-list-item-title>{{ group.name }}</v-list-item-title>
+                  <v-list-item-title>{{ group.group.disp }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -29,12 +31,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ProblemList from '@/components/ProblemList.vue'
 import { NavigationGuardNext, Route } from 'vue-router'
 import { api } from '@/api'
+import ProblemList from '@/components/ProblemList.vue'
+import Gravatar from '@/components/Gravatar.vue'
 
 @Component({
-  components: { ProblemList },
+  components: { ProblemList, Gravatar },
   beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext) {
     api.state.userId ? next() : next('/login')
   }
@@ -42,6 +45,16 @@ import { api } from '@/api'
 export default class Home extends Vue {
   loading = false
 
-  groups = [{ id: 'aaa', name: '123', displayname: 'zhang' }]
+  groups = [] as any[]
+
+  created() {
+    this.loadGroups()
+  }
+
+  async loadGroups() {
+    this.loading = true
+    this.groups = await api.user.listGroups(api.state.userId!)
+    this.loading = false
+  }
 }
 </script>

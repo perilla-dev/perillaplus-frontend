@@ -1,12 +1,12 @@
 import { BaseAPI } from './base'
 
 export class UserAPI extends BaseAPI {
-  getOneOrFail(id: string): Promise<any> {
+  get(id: string): Promise<any> {
     return this.hub.invoke('/user/get', { id })
   }
 
-  update(id: string, username?: string, nickname?: string, email?: string, passwd?: string): Promise<void> {
-    return this.hub.invoke('/user/update', { id, username, nickname, email, passwd })
+  update(id: string, name?: string, disp?: string, email?: string, desc?: string, passwd?: string): Promise<void> {
+    return this.hub.invoke('/user/update', { id, name, disp, desc, email, passwd })
   }
 
   listTokens(userId: string): Promise<any[]> {
@@ -15,5 +15,9 @@ export class UserAPI extends BaseAPI {
 
   removeToken(id: string): Promise<void> {
     return this.hub.invoke('/user/removetoken', { id })
+  }
+
+  listGroups(userId: string): Promise<any[]> {
+    return this.hub.invoke('/user/listgroups', { userId })
   }
 }
