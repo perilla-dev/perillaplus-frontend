@@ -13,7 +13,12 @@ export default new Vuex.Store({
   state: {
     title: 'Home',
     path: [{ text: 'Home', to: '/' }],
-    userId: ''
+    userId: '',
+    user: {
+      theme: {
+        dark: false
+      }
+    }
   },
   mutations: {
     [M_PATH_PUSH](state, payload) {

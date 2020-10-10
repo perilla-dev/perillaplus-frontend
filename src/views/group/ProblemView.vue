@@ -19,7 +19,14 @@
         Description
       </v-tab>
       <v-tab-item key="desc">
-        <v-card-text>{{ problem.desc }}</v-card-text>
+        <v-card-text>
+          <template v-if="problem.desc">
+            <md>{{ problem.desc }}</md>
+          </template>
+          <template v-else>
+            No content
+          </template>
+        </v-card-text>
       </v-tab-item>
 
       <v-tab key="raw">
@@ -27,7 +34,7 @@
       </v-tab>
       <v-tab-item key="raw">
         <v-card-text>
-          <pre>{{ JSON.stringify(problem, null, '  ') }}</pre>
+          <markup :code="JSON.stringify(problem, null, '  ')" language="json" />
         </v-card-text>
       </v-tab-item>
 
@@ -36,7 +43,7 @@
       </v-tab>
       <v-tab-item key="data">
         <v-card-text>
-          <pre>{{ JSON.stringify(problem.data, null, '  ') }}</pre>
+          <markup :code="JSON.stringify(problem.data, null, '  ')" language="json" />
         </v-card-text>
       </v-tab-item>
 
@@ -72,9 +79,11 @@ import { M_PATH_POP, M_PATH_PUSH, M_PATH_REPLACE } from '@/store'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import ZDate from '@/components/ZDate.vue'
 import ProblemAdmin from '@/components/ProblemAdmin.vue'
+import Markup from '@/components/vuetify/Markup.vue'
+import Md from '@/components/vuetify/Md.vue'
 
 @Component({
-  components: { ZDate, ProblemAdmin },
+  components: { ZDate, ProblemAdmin, Markup, Md },
   beforeRouteLeave(to, from, next) {
     this.$store.commit(M_PATH_POP)
     next()
