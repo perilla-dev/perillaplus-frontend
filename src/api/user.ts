@@ -16,8 +16,4 @@ export class UserAPI extends BaseAPI {
   removeToken(id: string): Promise<void> {
     return this.hub.invoke('/user/removetoken', { id })
   }
-
-  listGroups(userId: string): Promise<any[]> {
-    return this.hub.invoke('/user/listgroups', { userId })
-  }
 }

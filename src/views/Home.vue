@@ -31,13 +31,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { NavigationGuardNext, Route } from 'vue-router'
 import { api } from '@/api'
 import Gravatar from '@/components/Gravatar.vue'
 
 @Component({
   components: { Gravatar },
-  beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext) {
+  beforeRouteEnter(to, from, next) {
     api.state.userId ? next() : next('/login')
   }
 })
@@ -52,7 +51,7 @@ export default class Home extends Vue {
 
   async loadGroups() {
     this.loading = true
-    this.groups = await api.user.listGroups(api.state.userId!)
+    this.groups = await api.group.listByUser(api.state.userId!)
     this.loading = false
   }
 }

@@ -1,6 +1,54 @@
 <template>
   <v-card :loading="loading">
-    <v-list v-if="notices.length"> </v-list>
+    <template v-if="admin">
+      <v-card-actions>
+        <v-spacer />
+        <v-btn outlined color="primary" :to="`/group/${groupId}/notice/new`">
+          <v-icon left>
+            mdi-plus
+          </v-icon>
+          Create new
+        </v-btn>
+      </v-card-actions>
+      <v-divider />
+    </template>
+    <template v-if="notices.length">
+      <v-card-text>
+        <v-row>
+          <v-col cols="12" v-for="(notice, i) in notices" :key="i">
+            <v-card outlined>
+              <v-card-title>
+                {{ notice.disp }}
+              </v-card-title>
+              <v-card-text>
+                {{ notice.desc }}
+              </v-card-text>
+              <v-card-actions>
+                <template v-if="admin">
+                  <v-btn color="primary" :to="`/group/${groupId}/notice/edit/${notice.id}`">
+                    <v-icon left>mdi-pencil</v-icon>
+                    Edit
+                  </v-btn>
+                </template>
+                <v-spacer />
+                <v-chip outlined small>
+                  <v-icon left>
+                    mdi-creation
+                  </v-icon>
+                  <z-date :date="notice.created" />
+                </v-chip>
+                <v-chip outlined small>
+                  <v-icon left>
+                    mdi-pencil
+                  </v-icon>
+                  <z-date :date="notice.updated" />
+                </v-chip>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </template>
     <v-card-text v-else>
       No notices!
     </v-card-text>
@@ -8,16 +56,18 @@
 </template>
 
 <script lang="ts">
-import { api } from '@/api'
+import { api, MemberRole } from '@/api'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import ZDate from '@/components/ZDate.vue'
 
-@Component
-export default class NoticeList extends Vue {
+@Component({ components: { ZDate } })
+export default class GroupHome extends Vue {
   @Prop()
   groupId!: string
 
-  loading!: boolean
+  loading = false
   notices = [] as any[]
+  member = {} as any
 
   created() {
     this.load()
@@ -25,8 +75,13 @@ export default class NoticeList extends Vue {
 
   async load() {
     this.loading = true
-    this.notices = await api.group.listNotices(this.groupId)
+    this.notices = await api.notice.listByGroup(this.groupId)
+    this.member = await api.group.findMember(this.groupId, api.state.userId!)
     this.loading = false
+  }
+
+  get admin() {
+    return this.member.role !== MemberRole.member
   }
 }
 </script>

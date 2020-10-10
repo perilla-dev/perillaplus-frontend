@@ -1,6 +1,8 @@
 import { UserAPI } from './user'
-import store, { M_LOGIN, M_LOGOUT } from '@/store'
 import { GroupAPI } from './group'
+import store, { M_LOGIN, M_LOGOUT } from '@/store'
+import { NoticeAPI } from './notice'
+import { ProblemAPI } from './problem'
 
 const kToken = 'access-token'
 const kTokenId = 'token-id'
@@ -45,6 +47,8 @@ class PersistedState {
 export class APIHub {
   user
   group
+  notice
+  problem
   vuex
   state
 
@@ -58,6 +62,8 @@ export class APIHub {
 
     this.user = new UserAPI(this)
     this.group = new GroupAPI(this)
+    this.notice = new NoticeAPI(this)
+    this.problem = new ProblemAPI(this)
   }
 
   async invoke(url: string, body: any) {

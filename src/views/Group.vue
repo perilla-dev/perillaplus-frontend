@@ -4,7 +4,9 @@
       <v-card :loading="loading">
         <v-card-title>
           <div>
-            <div>{{ group.disp }}</div>
+            <v-badge :content="role">
+              <div>{{ group.disp }}</div>
+            </v-badge>
             <div class="subtitle-1">
               <code>{{ group.name }}</code>
             </div>
@@ -17,13 +19,13 @@
         <v-divider />
         <v-tabs>
           <v-tabs-slider></v-tabs-slider>
-          <v-tab :to="`/group/${groupId}/`" exact>
+          <v-tab :to="`${currentURL}/`" exact>
             Home
           </v-tab>
-          <v-tab :to="`/group/${groupId}/problems`" exact>
+          <v-tab :to="`${currentURL}/problem`">
             Problems
           </v-tab>
-          <v-tab :to="`/group/${groupId}/competitions`" exact disabled>
+          <v-tab :to="`${currentURL}/competition`" disabled>
             Competitions
           </v-tab>
         </v-tabs>
@@ -37,15 +39,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { M_PATH_POP, M_PATH_PUSH } from '@/store'
-import { api } from '@/api'
+import { M_PATH_POP, M_PATH_PUSH, M_PATH_REPLACE } from '@/store'
+import { api, MemberRole } from '@/api'
 import Gravatar from '@/components/Gravatar.vue'
-import { NavigationGuardNext, Route } from 'vue-router'
 
 @Component({
   components: { Gravatar },
-  beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext) {
+  beforeRouteEnter(to, from, next) {
     api.state.userId ? next() : next('/login')
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit(M_PATH_POP)
+    next()
   }
 })
 export default class Group extends Vue {
@@ -55,21 +60,27 @@ export default class Group extends Vue {
   loading = false
 
   group = {} as any
+  member = {} as any
 
-  mounted() {
-    this.$store.commit(M_PATH_PUSH, { text: this.groupId, to: `/group/${this.groupId}` })
-    this.$on('hook:beforeDestroy', () => {
-      this.$store.commit(M_PATH_POP)
-    })
+  created() {
+    this.$store.commit(M_PATH_PUSH, { text: this.groupId, to: this.currentURL })
     this.loadData()
   }
 
   async loadData() {
     this.loading = true
     this.group = await api.group.get(this.groupId)
-    this.$store.commit(M_PATH_POP)
-    this.$store.commit(M_PATH_PUSH, { text: this.group.disp, to: `/group/${this.groupId}` })
+    this.member = await api.group.findMember(this.groupId, api.state.userId!)
+    this.$store.commit(M_PATH_REPLACE, { text: this.group.disp, to: this.currentURL })
     this.loading = false
+  }
+
+  get role() {
+    return MemberRole[this.member.role]
+  }
+
+  get currentURL() {
+    return `/group/${this.groupId}`
   }
 }
 </script>
