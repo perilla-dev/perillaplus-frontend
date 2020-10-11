@@ -1,17 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-avatar tile size="48" class="mr-4">
-        <v-img src="@/assets/logo.svg" />
-      </v-avatar>
-      <v-btn text x-large class="pa-0 text-center">
-        <div class="ma-2">
-          <div class="font-weight-bold text-none"><span class="font-weight-light">Perilla</span> <span class="font-weight-bold">Plus</span></div>
-          <div class="text-overline" style="line-height: unset;">
-            preview
-          </div>
-        </div>
-      </v-btn>
+      <div class="pt-3">
+        <img src="@/assets/logo-text.svg" height="32" />
+      </div>
       <v-btn text x-large class="text-center text-none">
         {{ title }}
       </v-btn>
