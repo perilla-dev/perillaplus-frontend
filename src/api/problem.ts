@@ -12,4 +12,20 @@ export class ProblemAPI extends BaseAPI {
   createInGroup(groupId: string, name: string, disp: string, desc: string, type: string, tags: string, pub: boolean): Promise<string> {
     return this.hub.invoke('/problem/createingroup', { groupId, name, disp, desc, type, tags, pub })
   }
+
+  update(id: string, name?: string, disp?: string, desc?: string, data?: string, type?: string, tags?: string, pub?: boolean): Promise<void> {
+    return this.hub.invoke('/problem/update', { id, name, disp, desc, data, type, tags, pub })
+  }
+
+  addContributor(problemId: string, userId: string): Promise<string> {
+    return this.hub.invoke('/problem/addcontributor', { problemId, userId })
+  }
+
+  removeContributor(id: string): Promise<void> {
+    return this.hub.invoke('/problem/removecontributor', { id })
+  }
+
+  listContributors(problemId: string): Promise<any[]> {
+    return this.hub.invoke('/problem/listcontributors', { problemId })
+  }
 }

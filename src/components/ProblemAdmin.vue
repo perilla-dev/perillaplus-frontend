@@ -42,7 +42,16 @@
         Data
       </v-tab>
       <v-tab-item key="data">
-        WIP
+        <monaco-editor v-model="problem.data" language="json" style="height: 500px;" />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="error" :disabled="loading" @click="resetData">
+            Reset
+          </v-btn>
+          <v-btn color="primary" :disabled="loading" @click="submitData">
+            Submit
+          </v-btn>
+        </v-card-actions>
       </v-tab-item>
 
       <v-tab key="actions">
@@ -58,14 +67,16 @@
 <script lang="ts">
 import { api } from '@/api'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import MonacoEditor from '@/components/MonacoEditor.vue'
 
-@Component
+@Component({ components: { MonacoEditor } })
 export default class ProblemAdmin extends Vue {
   @Prop()
   problemId!: string
 
   loading = false
   problem = {} as any
+  problemData = ''
 
   created() {
     this.reset()
@@ -74,12 +85,32 @@ export default class ProblemAdmin extends Vue {
   async reset() {
     this.loading = true
     this.problem = await api.problem.get(this.problemId)
+    this.resetData()
     this.loading = false
   }
 
   async submit() {
     this.loading = true
-    this.problem = await api.problem.get(this.problemId)
+    await api.problem.update(
+      this.problemId,
+      this.problem.name,
+      this.problem.disp,
+      this.problem.desc,
+      undefined,
+      this.problem.type,
+      this.problem.tags,
+      this.problem.pub
+    )
+    this.loading = false
+  }
+
+  resetData() {
+    this.problemData = this.problem.data
+  }
+
+  async submitData() {
+    this.loading = true
+    await api.problem.update(this.problemId, undefined, undefined, undefined, this.problemData)
     this.loading = false
   }
 }

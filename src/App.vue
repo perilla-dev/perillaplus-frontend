@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <div class="pt-3">
-        <img src="@/assets/logo-text.svg" height="32" />
+        <img src="@/assets/logo-text.svg" height="32" class="logo" />
       </div>
       <v-btn text x-large class="text-center text-none">
         {{ title }}
@@ -16,10 +16,15 @@
         <router-view />
       </v-container>
     </v-main>
-    <v-footer dark app>
+    <v-footer dark app absolute>
       <v-row justify="end" no-gutters>
         <v-col cols="12" class="text-right">
-          <v-btn text disabled class="text-none"> &copy; {{ new Date().getFullYear() }} PerillaDev</v-btn>
+          <div>
+            <div class="text-button">&copy; {{ new Date().getFullYear() }} PerillaDev</div>
+            <div>
+              <img src="@/assets/logo-text.svg" height="32" class="logo" />
+            </div>
+          </div>
         </v-col>
       </v-row>
     </v-footer>
@@ -39,3 +44,9 @@ import { mapState } from 'vuex'
 })
 export default class App extends Vue {}
 </script>
+
+<style lang="scss">
+.theme--dark .logo {
+  filter: invert(1);
+}
+</style>

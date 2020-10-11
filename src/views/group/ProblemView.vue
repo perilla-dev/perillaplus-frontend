@@ -61,7 +61,14 @@
         WIP
       </v-tab-item>
 
-      <template v-if="admin">
+      <v-tab key="contributors">
+        Contributors
+      </v-tab>
+      <v-tab-item key="contributors">
+        <problem-contributors :problem="problem" :admin="groupAdmin" />
+      </v-tab-item>
+
+      <template v-if="problemAdmin">
         <v-tab key="admin">
           Admin
         </v-tab>
@@ -78,12 +85,13 @@ import { api, MemberRole } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH, M_PATH_REPLACE } from '@/store'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import ZDate from '@/components/ZDate.vue'
-import ProblemAdmin from '@/components/ProblemAdmin.vue'
 import Markup from '@/components/vuetify/Markup.vue'
 import Md from '@/components/vuetify/Md.vue'
+import ProblemAdmin from '@/components/ProblemAdmin.vue'
+import ProblemContributors from '@/components/ProblemContributors.vue'
 
 @Component({
-  components: { ZDate, ProblemAdmin, Markup, Md },
+  components: { ZDate, ProblemAdmin, ProblemContributors, Markup, Md },
   beforeRouteLeave(to, from, next) {
     this.$store.commit(M_PATH_POP)
     next()
@@ -116,8 +124,12 @@ export default class ProblemView extends Vue {
     return `/group/${this.groupId}/problem/view/${this.problemId}`
   }
 
-  get admin() {
+  get groupAdmin() {
     return this.member.role !== MemberRole.member
+  }
+
+  get problemAdmin() {
+    return this.problem && this.problem.contributors && this.problem.contributors.some((x: any) => x.userId === api.state.userId)
   }
 }
 </script>
