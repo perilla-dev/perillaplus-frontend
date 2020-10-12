@@ -43,7 +43,7 @@
       </v-tab>
       <v-tab-item key="data">
         <v-card-text>
-          <markup :code="JSON.stringify(problem.data, null, '  ')" language="json" />
+          <markup :code="problem.data" language="json" />
         </v-card-text>
       </v-tab-item>
 
@@ -129,7 +129,7 @@ export default class ProblemView extends Vue {
   }
 
   get problemAdmin() {
-    return this.problem && this.problem.contributors && this.problem.contributors.some((x: any) => x.userId === api.state.userId)
+    return this.problem && this.problem.contributors && this.problem.contributors.some((x: any) => x.user.id === api.state.userId)
   }
 }
 </script>

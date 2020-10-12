@@ -24,13 +24,6 @@
         </v-card-actions>
       </v-tab-item>
 
-      <v-tab key="contributors">
-        Contributors
-      </v-tab>
-      <v-tab-item key="contributors">
-        WIP
-      </v-tab-item>
-
       <v-tab key="files">
         Files
       </v-tab>
@@ -42,7 +35,7 @@
         Data
       </v-tab>
       <v-tab-item key="data">
-        <monaco-editor v-model="problem.data" language="json" style="height: 500px;" />
+        <monaco-editor v-model="problemData" language="json" style="height: 500px;" />
         <v-card-actions>
           <v-spacer />
           <v-btn color="error" :disabled="loading" @click="resetData">

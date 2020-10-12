@@ -98,6 +98,7 @@ export class APIHub {
     this.state.userId = null
     this.state.tokenId = null
     this.vuex.commit(M_LOGOUT)
+    location.reload()
   }
 
   private forceLogout() {
