@@ -3,6 +3,7 @@ import { GroupAPI } from './group'
 import store, { M_LOGIN, M_LOGOUT } from '@/store'
 import { NoticeAPI } from './notice'
 import { ProblemAPI } from './problem'
+import { FileAPI } from './file'
 
 const kToken = 'access-token'
 const kTokenId = 'token-id'
@@ -46,9 +47,11 @@ class PersistedState {
 
 export class APIHub {
   user
+  file
   group
   notice
   problem
+
   vuex
   state
 
@@ -61,6 +64,7 @@ export class APIHub {
     }
 
     this.user = new UserAPI(this)
+    this.file = new FileAPI(this)
     this.group = new GroupAPI(this)
     this.notice = new NoticeAPI(this)
     this.problem = new ProblemAPI(this)
@@ -74,7 +78,33 @@ export class APIHub {
     if (this.state.token) {
       headers['x-access-token'] = this.state.token
     }
-    const res = await fetch(url, { method: 'post', body: JSON.stringify(body), headers })
+    const init = {
+      method: 'post',
+      body: JSON.stringify(body),
+      headers
+    }
+    const res = await fetch(url, init)
+    const data = await res.json()
+    if (data.ok) {
+      return data.result
+    } else {
+      if (data.result === E_INVALID_TOKEN) this.forceLogout()
+      throw new Error(data.result)
+    }
+  }
+
+  async upload(file: File): Promise<string> {
+    const body = new FormData()
+    body.append('file', file)
+    const url = '/upload'
+    const init = {
+      method: 'post',
+      body,
+      headers: {
+        'x-access-token': this.state.token!
+      }
+    }
+    const res = await fetch(url, init)
     const data = await res.json()
     if (data.ok) {
       return data.result

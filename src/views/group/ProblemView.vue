@@ -51,7 +51,7 @@
         Files
       </v-tab>
       <v-tab-item key="files">
-        WIP
+        <problem-files :problem="problem" />
       </v-tab-item>
 
       <v-tab key="submissions">
@@ -89,9 +89,10 @@ import Markup from '@/components/vuetify/Markup.vue'
 import Md from '@/components/vuetify/Md.vue'
 import ProblemAdmin from '@/components/ProblemAdmin.vue'
 import ProblemContributors from '@/components/ProblemContributors.vue'
+import ProblemFiles from '@/components/ProblemFiles.vue'
 
 @Component({
-  components: { ZDate, ProblemAdmin, ProblemContributors, Markup, Md },
+  components: { ZDate, ProblemAdmin, ProblemContributors, ProblemFiles, Markup, Md },
   beforeRouteLeave(to, from, next) {
     this.$store.commit(M_PATH_POP)
     next()

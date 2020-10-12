@@ -28,7 +28,7 @@
         Files
       </v-tab>
       <v-tab-item key="files">
-        WIP
+        <problem-files :problem="problem" :admin="true" />
       </v-tab-item>
 
       <v-tab key="data">
@@ -61,8 +61,9 @@
 import { api } from '@/api'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import MonacoEditor from '@/components/MonacoEditor.vue'
+import ProblemFiles from '@/components/ProblemFiles.vue'
 
-@Component({ components: { MonacoEditor } })
+@Component({ components: { MonacoEditor, ProblemFiles } })
 export default class ProblemAdmin extends Vue {
   @Prop()
   problemId!: string

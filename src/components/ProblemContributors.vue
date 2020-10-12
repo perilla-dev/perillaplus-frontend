@@ -4,6 +4,7 @@
       <v-card-text>
         <v-text-field label="user-id" v-model="newUserId" />
         <v-btn color="primary" @click="add" :disabled="loading">Add</v-btn>
+        <v-btn v-if="!hasMe" @click="addMe" :disabled="loading">Add Me</v-btn>
       </v-card-text>
       <v-divider />
     </template>
@@ -57,11 +58,22 @@ export default class ProblemContributors extends Vue {
     this.loading = false
   }
 
+  async addMe() {
+    this.loading = true
+    await api.problem.addContributor(this.problem.id, api.state.userId!)
+    this.problem.contributors = await api.problem.listContributors(this.problem.id)
+    this.loading = false
+  }
+
   async remove(id: string) {
     this.loading = true
     await api.problem.removeContributor(id)
     this.problem.contributors = await api.problem.listContributors(this.problem.id)
     this.loading = false
+  }
+
+  get hasMe() {
+    return this.problem && this.problem.contributors && this.problem.contributors.some((x: any) => x.user.id === api.state.userId)
   }
 }
 </script>

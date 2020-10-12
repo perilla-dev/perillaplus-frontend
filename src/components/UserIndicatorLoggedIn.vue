@@ -1,7 +1,7 @@
 <template>
   <v-menu offset-y open-on-hover>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn text outlined large :loading="loading" class="text-none" v-bind="attrs" v-on="on">
+      <v-btn text outlined large :loading="loading" class="text-none" v-bind="attrs" v-on="on" :to="`/user/${user.id}`">
         <v-avatar size="32" left>
           <gravatar :email="user.email" />
         </v-avatar>

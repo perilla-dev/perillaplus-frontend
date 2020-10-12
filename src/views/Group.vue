@@ -63,7 +63,7 @@ export default class Group extends Vue {
   member = {} as any
 
   created() {
-    this.$store.commit(M_PATH_PUSH, { text: this.groupId, to: this.currentURL })
+    this.$store.commit(M_PATH_PUSH, { text: `Group: ${this.groupId}`, to: this.currentURL })
     this.loadData()
   }
 
@@ -71,7 +71,7 @@ export default class Group extends Vue {
     this.loading = true
     this.group = await api.group.get(this.groupId)
     this.member = await api.group.findMember(this.groupId, api.state.userId!)
-    this.$store.commit(M_PATH_REPLACE, { text: this.group.disp, to: this.currentURL })
+    this.$store.commit(M_PATH_REPLACE, { text: `Group: ${this.group.disp}`, to: this.currentURL })
     this.loading = false
   }
 
