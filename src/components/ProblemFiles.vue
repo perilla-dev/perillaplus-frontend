@@ -40,6 +40,7 @@
 <script lang="ts">
 import { api } from '@/api'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { toastError } from '@/plugins/izitoast'
 
 @Component
 export default class ProblemFiles extends Vue {
@@ -66,6 +67,12 @@ export default class ProblemFiles extends Vue {
     this.loading = true
     await api.file.remove(id)
     this.loading = false
+  }
+
+  errorCaptured(err: Error) {
+    toastError(err.message)
+    this.loading = false
+    return false
   }
 }
 </script>

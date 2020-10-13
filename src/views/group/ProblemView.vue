@@ -90,6 +90,7 @@ import Md from '@/components/vuetify/Md.vue'
 import ProblemAdmin from '@/components/ProblemAdmin.vue'
 import ProblemContributors from '@/components/ProblemContributors.vue'
 import ProblemFiles from '@/components/ProblemFiles.vue'
+import { toastError } from '@/plugins/izitoast'
 
 @Component({
   components: { ZDate, ProblemAdmin, ProblemContributors, ProblemFiles, Markup, Md },
@@ -134,6 +135,12 @@ export default class ProblemView extends Vue {
 
   get problemAdmin() {
     return this.problem && this.problem.contributors && this.problem.contributors.some((x: any) => x.user.id === api.state.userId)
+  }
+
+  errorCaptured(err: Error) {
+    toastError(err.message)
+    this.loading = false
+    return false
   }
 }
 </script>
