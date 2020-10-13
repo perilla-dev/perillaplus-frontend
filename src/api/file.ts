@@ -14,9 +14,9 @@ export class FileAPI extends BaseAPI {
     return this.hub.invoke('/file/createinproblem', { problemId, rawId, path, pub })
   }
   remove(id: string): Promise<void> {
-    return this.hub.invoke('/file/listbyproblem', { id })
+    return this.hub.invoke('/file/remove', { id })
   }
   update(id: string, path?: string, pub?: boolean): Promise<void> {
-    return this.hub.invoke('/file/listbyproblem', { id, path, pub })
+    return this.hub.invoke('/file/update', { id, path, pub })
   }
 }
