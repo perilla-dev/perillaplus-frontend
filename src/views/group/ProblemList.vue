@@ -70,7 +70,6 @@ export default class ProblemList extends Vue {
 
   loading = false
   problems = [] as any[]
-  member = {} as any
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: 'Problems', to: this.currentURL })
@@ -80,8 +79,12 @@ export default class ProblemList extends Vue {
   async load() {
     this.loading = true
     this.problems = await api.problem.listByGroup(this.groupId)
-    this.member = await api.group.findMember(this.groupId, api.state.userId!)
     this.loading = false
+  }
+
+  get member() {
+    const parent = this.$parent as any
+    return parent.member
   }
 
   get admin() {

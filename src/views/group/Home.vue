@@ -67,7 +67,6 @@ export default class GroupHome extends Vue {
 
   loading = false
   notices = [] as any[]
-  member = {} as any
 
   created() {
     this.load()
@@ -76,8 +75,12 @@ export default class GroupHome extends Vue {
   async load() {
     this.loading = true
     this.notices = await api.notice.listByGroup(this.groupId)
-    this.member = await api.group.findMember(this.groupId, api.state.userId!)
     this.loading = false
+  }
+
+  get member() {
+    const parent = this.$parent as any
+    return parent.member
   }
 
   get admin() {

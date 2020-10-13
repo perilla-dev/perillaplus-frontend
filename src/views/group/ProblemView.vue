@@ -106,7 +106,6 @@ export default class ProblemView extends Vue {
 
   loading = false
   problem = {} as any
-  member = {} as any
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: `Problem: ${this.problemId}`, to: this.currentURL })
@@ -116,13 +115,17 @@ export default class ProblemView extends Vue {
   async load() {
     this.loading = true
     this.problem = await api.problem.get(this.problemId)
-    this.member = await api.group.findMember(this.groupId, api.state.userId!)
     this.$store.commit(M_PATH_REPLACE, { text: `Problem: ${this.problem.disp}`, to: this.currentURL })
     this.loading = false
   }
 
   get currentURL() {
     return `/group/${this.groupId}/problem/view/${this.problemId}`
+  }
+
+  get member() {
+    const parent = this.$parent as any
+    return parent.member
   }
 
   get groupAdmin() {
