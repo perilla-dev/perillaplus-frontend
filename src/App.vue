@@ -42,7 +42,15 @@ import { mapState } from 'vuex'
     ...mapState(['title', 'path'])
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  created() {
+    const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    this.$vuetify.theme.dark = darkMediaQuery.matches
+    darkMediaQuery.addEventListener('change', e => {
+      this.$vuetify.theme.dark = e.matches
+    })
+  }
+}
 </script>
 
 <style lang="scss">
