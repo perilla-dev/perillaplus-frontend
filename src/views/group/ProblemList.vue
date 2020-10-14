@@ -16,7 +16,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" v-for="(problem, i) in problems" :key="i">
-            <v-card outlined :to="`${currentURL}/view/${problem.id}`" hover>
+            <v-card outlined :to="`${currentURL}/${problem.id}`" hover>
               <v-card-title>
                 {{ problem.disp }}
               </v-card-title>
@@ -54,7 +54,7 @@
 <script lang="ts">
 import { api, MemberRole } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
-import { Component, InjectReactive, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import ZDate from '@/components/ZDate.vue'
 
 @Component({
@@ -70,8 +70,7 @@ export default class ProblemList extends Vue {
 
   loading = false
   problems = [] as any[]
-  @InjectReactive()
-  member!: any
+  member = {} as any
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: 'Problems', to: this.currentURL })

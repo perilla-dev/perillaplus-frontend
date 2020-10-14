@@ -1,6 +1,6 @@
 <template>
   <v-card flat :loading="loading">
-    <template v-if="admin">
+    <template v-if="problemAdmin">
       <v-card-text>
         <v-file-input label="file" v-model="file" />
         <v-text-field label="path" v-model="path" />
@@ -19,7 +19,7 @@
               </v-badge>
             </v-list-item-title>
           </v-list-item-content>
-          <template v-if="admin">
+          <template v-if="problemAdmin">
             <v-list-item-action>
               <v-btn icon @click="remove(file.id)" :disabled="loading">
                 <v-icon>mdi-delete</v-icon>
@@ -39,21 +39,41 @@
 
 <script lang="ts">
 import { api } from '@/api'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { toastError } from '@/plugins/izitoast'
+import { getParent } from '@/plugins/misc'
+import { M_PATH_POP, M_PATH_PUSH } from '@/store'
+import Problem from '@/views/group/Problem.vue'
 
-@Component
+@Component({
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit(M_PATH_POP)
+    next()
+  }
+})
 export default class ProblemFiles extends Vue {
-  @Prop()
-  problem!: any
-
-  @Prop()
-  admin!: boolean
-
+  problemVm = {} as any
   loading = false
   file: File | null = null
   path = ''
   pub = true
+
+  created() {
+    this.problemVm = getParent(this, Problem)
+    this.$store.commit(M_PATH_PUSH, { text: 'Files', to: this.currentURL })
+  }
+
+  get currentURL() {
+    return this.problemVm.currentURL + '/files'
+  }
+
+  get problem() {
+    return this.problemVm.problem
+  }
+
+  get problemAdmin() {
+    return this.problemVm.problemAdmin
+  }
 
   async add() {
     this.loading = true

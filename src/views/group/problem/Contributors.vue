@@ -1,6 +1,6 @@
 <template>
   <v-card flat :loading="loading">
-    <template v-if="admin">
+    <template v-if="groupAdmin">
       <v-card-text>
         <v-text-field label="user-id" v-model="newUserId" />
         <v-btn color="primary" @click="add" :disabled="loading">Add</v-btn>
@@ -17,7 +17,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ contributor.user.disp }}</v-list-item-title>
           </v-list-item-content>
-          <template v-if="admin">
+          <template v-if="groupAdmin">
             <v-list-item-action>
               <v-btn icon @click="remove(contributor.id)" :disabled="loading">
                 <v-icon>mdi-delete</v-icon>
@@ -37,19 +37,40 @@
 
 <script lang="ts">
 import { api } from '@/api'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
+import { getParent } from '@/plugins/misc'
 import Gravatar from '@/components/Gravatar.vue'
+import Problem from '@/views/group/Problem.vue'
+import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 
-@Component({ components: { Gravatar } })
+@Component({
+  components: { Gravatar },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit(M_PATH_POP)
+    next()
+  }
+})
 export default class ProblemContributors extends Vue {
-  @Prop()
-  problem!: any
-
-  @Prop()
-  admin!: boolean
-
+  problemVm = {} as any
   newUserId = ''
   loading = false
+
+  created() {
+    this.problemVm = getParent(this, Problem)
+    this.$store.commit(M_PATH_PUSH, { text: 'Contributors', to: this.currentURL })
+  }
+
+  get currentURL() {
+    return this.problemVm.currentURL + '/contributors'
+  }
+
+  get problem() {
+    return this.problemVm.problem
+  }
+
+  get groupAdmin() {
+    return this.problemVm.groupAdmin
+  }
 
   async add() {
     this.loading = true

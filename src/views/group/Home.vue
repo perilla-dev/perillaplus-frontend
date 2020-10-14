@@ -57,8 +57,10 @@
 
 <script lang="ts">
 import { api, MemberRole } from '@/api'
-import { Component, InjectReactive, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { getParent } from '@/plugins/misc'
 import ZDate from '@/components/ZDate.vue'
+import Group from '@/views/Group.vue'
 
 @Component({ components: { ZDate } })
 export default class GroupHome extends Vue {
@@ -67,10 +69,10 @@ export default class GroupHome extends Vue {
 
   loading = false
   notices = [] as any[]
-  @InjectReactive()
-  member!: any
+  groupVm = {} as any
 
   created() {
+    this.groupVm = getParent(this, Group)
     this.load()
   }
 
@@ -78,6 +80,10 @@ export default class GroupHome extends Vue {
     this.loading = true
     this.notices = await api.notice.listByGroup(this.groupId)
     this.loading = false
+  }
+
+  get member() {
+    return this.groupVm.member
   }
 
   get admin() {

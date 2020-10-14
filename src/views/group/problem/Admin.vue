@@ -24,13 +24,6 @@
         </v-card-actions>
       </v-tab-item>
 
-      <v-tab key="files">
-        Files
-      </v-tab>
-      <v-tab-item key="files">
-        <problem-files :problem="problem" :admin="true" />
-      </v-tab-item>
-
       <v-tab key="data">
         Data
       </v-tab>
@@ -51,7 +44,17 @@
         Actions
       </v-tab>
       <v-tab-item key="actions">
-        WIP
+        <v-card-text>
+          <v-row>
+            <v-col cols="12">
+              <v-card outlined>
+                <v-card-title>
+                  Danger zone
+                </v-card-title>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card-text>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -59,26 +62,45 @@
 
 <script lang="ts">
 import { api } from '@/api'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
+import { getParent } from '@/plugins/misc'
 import MonacoEditor from '@/components/MonacoEditor.vue'
-import ProblemFiles from '@/components/ProblemFiles.vue'
+import Problem from '@/views/group/Problem.vue'
+import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 
-@Component({ components: { MonacoEditor, ProblemFiles } })
+@Component({
+  components: { MonacoEditor },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit(M_PATH_POP)
+    next()
+  }
+})
 export default class ProblemAdmin extends Vue {
-  @Prop()
-  problemId!: string
-
+  problemVm = {} as any
   loading = false
-  problem = {} as any
   problemData = ''
 
   created() {
-    this.reset()
+    this.problemVm = getParent(this, Problem)
+    this.$store.commit(M_PATH_PUSH, { text: 'Admin', to: this.currentURL })
+    this.resetData()
+  }
+
+  get problem() {
+    return this.problemVm.problem
+  }
+
+  set problem(val) {
+    this.problemVm.problem = val
+  }
+
+  get currentURL() {
+    return this.problemVm.currentURL + '/admin'
   }
 
   async reset() {
     this.loading = true
-    this.problem = await api.problem.get(this.problemId)
+    this.problem = await api.problem.get(this.problem.id)
     this.resetData()
     this.loading = false
   }
@@ -86,7 +108,7 @@ export default class ProblemAdmin extends Vue {
   async submit() {
     this.loading = true
     await api.problem.update(
-      this.problemId,
+      this.problem.id,
       this.problem.name,
       this.problem.disp,
       this.problem.desc,
@@ -104,7 +126,7 @@ export default class ProblemAdmin extends Vue {
 
   async submitData() {
     this.loading = true
-    await api.problem.update(this.problemId, undefined, undefined, undefined, this.problemData)
+    await api.problem.update(this.problem.id, undefined, undefined, undefined, this.problemData)
     this.loading = false
   }
 }
