@@ -83,7 +83,7 @@
 <script lang="ts">
 import { api, MemberRole } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH, M_PATH_REPLACE } from '@/store'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, InjectReactive, Prop, Vue } from 'vue-property-decorator'
 import ZDate from '@/components/ZDate.vue'
 import Markup from '@/components/vuetify/Markup.vue'
 import Md from '@/components/vuetify/Md.vue'
@@ -107,6 +107,8 @@ export default class ProblemView extends Vue {
 
   loading = false
   problem = {} as any
+  @InjectReactive()
+  member!: any
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: `Problem: ${this.problemId}`, to: this.currentURL })
@@ -122,11 +124,6 @@ export default class ProblemView extends Vue {
 
   get currentURL() {
     return `/group/${this.groupId}/problem/view/${this.problemId}`
-  }
-
-  get member() {
-    const parent = this.$parent as any
-    return parent.member
   }
 
   get groupAdmin() {

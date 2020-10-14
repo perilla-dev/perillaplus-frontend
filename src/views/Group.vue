@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, ProvideReactive, Vue } from 'vue-property-decorator'
 import { M_PATH_POP, M_PATH_PUSH, M_PATH_REPLACE } from '@/store'
 import { api, MemberRole } from '@/api'
 import Gravatar from '@/components/Gravatar.vue'
@@ -60,6 +60,7 @@ export default class Group extends Vue {
   loading = false
 
   group = {} as any
+  @ProvideReactive()
   member = {} as any
 
   created() {

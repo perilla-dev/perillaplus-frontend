@@ -54,7 +54,7 @@
 <script lang="ts">
 import { api, MemberRole } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, InjectReactive, Prop, Vue } from 'vue-property-decorator'
 import ZDate from '@/components/ZDate.vue'
 
 @Component({
@@ -70,6 +70,8 @@ export default class ProblemList extends Vue {
 
   loading = false
   problems = [] as any[]
+  @InjectReactive()
+  member!: any
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: 'Problems', to: this.currentURL })
@@ -80,11 +82,6 @@ export default class ProblemList extends Vue {
     this.loading = true
     this.problems = await api.problem.listByGroup(this.groupId)
     this.loading = false
-  }
-
-  get member() {
-    const parent = this.$parent as any
-    return parent.member
   }
 
   get admin() {
