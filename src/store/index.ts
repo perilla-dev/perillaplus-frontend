@@ -8,7 +8,6 @@ export const M_PATH_POP = 'path:pop'
 export const M_PATH_REPLACE = 'path:replace'
 export const M_LOGIN = 'user:login'
 export const M_LOGOUT = 'user:logout'
-export const M_THEME = 'user:theme'
 
 export default new Vuex.Store({
   state: {
