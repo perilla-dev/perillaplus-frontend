@@ -31,7 +31,7 @@
         Files
       </v-tab>
 
-      <v-tab :to="`${currentURL}/submissions`">
+      <v-tab :to="`${currentURL}/submission`">
         Submissions
       </v-tab>
 

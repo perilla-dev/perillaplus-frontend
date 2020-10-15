@@ -1,4 +1,5 @@
 import { RouteConfig } from 'vue-router'
+import { submissionRoutes } from './submission'
 
 export const problemRoutes: Array<RouteConfig> = [
   {
@@ -38,12 +39,29 @@ export const problemRoutes: Array<RouteConfig> = [
     props: true
   },
   {
-    path: 'submissions',
+    path: 'submission',
     component: () =>
       import(
         /* webpackChunkName: 'problem' */
-        '@/views/group/problem/Submissions.vue'
+        '@/views/group/problem/SubmissionList.vue'
       )
+  },
+  {
+    path: 'submission/new',
+    component: () =>
+      import(
+        /* webpackChunkName: 'problem' */
+        '@/views/group/problem/SubmissionCreate.vue'
+      )
+  },
+  {
+    path: 'submission/:submissionId',
+    component: () =>
+      import(
+        /* webpackChunkName: 'problem' */
+        '@/views/group/problem/Submission.vue'
+      ),
+    children: submissionRoutes
   },
   {
     path: 'contributors',

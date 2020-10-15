@@ -1,42 +1,36 @@
 import { RouteConfig } from 'vue-router'
-import Home from '@/views/group/Home.vue'
-import ProblemList from '@/views/group/ProblemList.vue'
-import NoticeCreate from '@/views/group/NoticeCreate.vue'
-import NoticeEdit from '@/views/group/NoticeEdit.vue'
-import ProblemCreate from '@/views/group/ProblemCreate.vue'
-import Problem from '@/views/group/Problem.vue'
 import { problemRoutes } from './problem'
 
 export const groupRoutes: Array<RouteConfig> = [
   {
     path: '',
-    component: Home,
+    component: () => import('@/views/group/Home.vue'),
     props: true
   },
   {
     path: 'notice/new',
-    component: NoticeCreate,
+    component: () => import('@/views/group/NoticeCreate.vue'),
     props: true
   },
   {
     path: 'notice/edit/:noticeId',
-    component: NoticeEdit,
+    component: () => import('@/views/group/NoticeEdit.vue'),
+    props: true
+  },
+  {
+    path: 'problem',
+    component: () => import('@/views/group/ProblemList.vue'),
     props: true
   },
   {
     path: 'problem/new',
-    component: ProblemCreate,
+    component: () => import('@/views/group/ProblemCreate.vue'),
     props: true
   },
   {
     path: 'problem/:problemId',
-    component: Problem,
+    component: () => import('@/views/group/Problem.vue'),
     props: true,
     children: problemRoutes
-  },
-  {
-    path: 'problem',
-    component: ProblemList,
-    props: true
   }
 ]
