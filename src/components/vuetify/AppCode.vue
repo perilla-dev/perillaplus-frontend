@@ -24,7 +24,7 @@ export default {
 
   computed: {
     isDark() {
-      return this.$store.state.user.theme.dark
+      return this.$vuetify.theme.dark
     }
   },
 

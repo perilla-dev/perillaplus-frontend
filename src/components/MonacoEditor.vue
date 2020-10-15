@@ -10,8 +10,8 @@ import * as monaco from 'monaco-editor'
 export default class MonacoEditor extends Vue {
   @Model('change')
   value!: string
-  @Prop({ default: 'vs' })
-  theme!: string
+  @Prop()
+  theme?: string
   @Prop({ required: true })
   language!: string
   @Prop()
@@ -29,7 +29,7 @@ export default class MonacoEditor extends Vue {
   initMonaco() {
     const options = {
       value: this.value,
-      theme: this.theme,
+      theme: this.theme || (this.$vuetify.theme.dark ? 'vs-dark' : 'vs'),
       language: this.language,
       automaticLayout: true,
       readOnly: this.readonly
