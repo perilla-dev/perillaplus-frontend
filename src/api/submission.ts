@@ -1,5 +1,11 @@
 import { BaseAPI } from './base'
 
+export enum SubmissionState {
+  Pending,
+  Running,
+  Done
+}
+
 export interface SubmissionFileDTO {
   rawId: string
   path: string

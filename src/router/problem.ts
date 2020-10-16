@@ -1,5 +1,4 @@
 import { RouteConfig } from 'vue-router'
-import { submissionRoutes } from './submission'
 
 export const problemRoutes: Array<RouteConfig> = [
   {
@@ -63,7 +62,6 @@ export const problemRoutes: Array<RouteConfig> = [
         /* webpackChunkName: 'problem' */
         '@/views/group/problem/Submission.vue'
       ),
-    children: submissionRoutes,
     props: true
   },
   {
