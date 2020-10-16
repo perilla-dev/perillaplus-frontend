@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { api } from '@/api'
+import { toastSuccess } from '@/plugins/izitoast'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
@@ -45,7 +46,9 @@ export default class ProblemCreate extends Vue {
 
   async submit() {
     this.loading = true
-    await api.problem.createInGroup(this.groupId, this.name, this.disp, this.desc, this.type, this.tags.join(','), this.pub)
+    const id = await api.problem.createInGroup(this.groupId, this.name, this.disp, this.desc, this.type, this.tags.join(','), this.pub)
+    toastSuccess('Created problem ' + this.name)
+    this.$router.push(`/group/${this.groupId}/problem/${id}`)
     this.loading = false
   }
 }

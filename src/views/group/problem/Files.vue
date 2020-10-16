@@ -14,7 +14,7 @@
         <v-list-item v-for="(file, i) in problem.files" :key="i">
           <v-list-item-content>
             <v-list-item-title>
-              <v-badge :icon="file.pub ? 'mdi-lock-open-outline' : 'mdi-lock-outline'" :color="file.pub ? 'primary' : 'error'">
+              <v-badge :icon="file.pub ? 'mdi-lock-open-outline' : 'mdi-lock-outline'" :color="file.pub ? 'primary' : 'warning'">
                 {{ file.path }}
               </v-badge>
             </v-list-item-title>

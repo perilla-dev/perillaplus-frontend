@@ -44,7 +44,8 @@ export const problemRoutes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: 'problem' */
         '@/views/group/problem/SubmissionList.vue'
-      )
+      ),
+    props: true
   },
   {
     path: 'submission/new',
@@ -52,7 +53,8 @@ export const problemRoutes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: 'problem' */
         '@/views/group/problem/SubmissionCreate.vue'
-      )
+      ),
+    props: true
   },
   {
     path: 'submission/:submissionId',
@@ -61,7 +63,8 @@ export const problemRoutes: Array<RouteConfig> = [
         /* webpackChunkName: 'problem' */
         '@/views/group/problem/Submission.vue'
       ),
-    children: submissionRoutes
+    children: submissionRoutes,
+    props: true
   },
   {
     path: 'contributors',

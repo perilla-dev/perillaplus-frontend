@@ -31,6 +31,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { api } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
+import { toastSuccess } from '@/plugins/izitoast'
 
 @Component({
   beforeRouteEnter(to, from, next) {
@@ -49,6 +50,7 @@ export default class Login extends Vue {
     this.loading = true
     try {
       await api.login(this.username, this.password)
+      toastSuccess('login succeeded')
       this.$router.push('/')
     } catch (e) {
       console.log(e)

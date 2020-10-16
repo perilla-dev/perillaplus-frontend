@@ -7,3 +7,10 @@ export function toastError(msg: string) {
     message: msg
   })
 }
+
+export function toastSuccess(msg: string) {
+  toast.success({
+    title: 'Success',
+    message: msg
+  })
+}
