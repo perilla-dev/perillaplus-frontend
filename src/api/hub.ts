@@ -99,7 +99,7 @@ export class APIHub {
   async upload(file: File): Promise<string> {
     const body = new FormData()
     body.append('file', file)
-    const url = '/upload'
+    const url = '/file/upload'
     const init = {
       method: 'post',
       body,
