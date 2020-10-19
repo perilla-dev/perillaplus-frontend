@@ -5,6 +5,7 @@
       <v-text-field label="name" v-model="notice.name" />
       <v-text-field label="display name" v-model="notice.disp" />
       <v-textarea label="content" v-model="notice.desc" />
+      <v-text-field label="tags" v-model="notice.tags" />
     </v-card-text>
     <v-card-actions>
       <v-spacer />
@@ -52,7 +53,7 @@ export default class NoticeEdit extends Vue {
 
   async submit() {
     this.loading = true
-    await api.notice.update(this.noticeId, this.notice.name, this.notice.disp, this.notice.desc)
+    await api.notice.update(this.noticeId, this.notice.name, this.notice.disp, this.notice.desc, this.notice.tags)
     this.loading = false
   }
 

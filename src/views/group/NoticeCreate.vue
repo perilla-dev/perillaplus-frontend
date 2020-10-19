@@ -4,6 +4,7 @@
       <v-text-field label="name" v-model="name" />
       <v-text-field label="display name" v-model="disp" />
       <v-textarea label="content" v-model="desc" />
+      <v-text-field label="tags" v-model="tags" />
     </v-card-text>
     <v-card-actions>
       <v-spacer />
@@ -33,6 +34,7 @@ export default class NoticeCreate extends Vue {
   name = ''
   disp = ''
   desc = ''
+  tags = ''
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: 'Create Notice', to: `/group/${this.groupId}/notice/new` })
@@ -40,7 +42,7 @@ export default class NoticeCreate extends Vue {
 
   async submit() {
     this.loading = true
-    await api.notice.createInGroup(this.groupId, this.name, this.disp, this.desc)
+    await api.notice.createInGroup(this.groupId, this.name, this.disp, this.desc, this.tags)
     this.loading = false
   }
 }

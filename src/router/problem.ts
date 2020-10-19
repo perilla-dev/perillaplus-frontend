@@ -38,29 +38,29 @@ export const problemRoutes: Array<RouteConfig> = [
     props: true
   },
   {
-    path: 'submission',
+    path: 'solution',
     component: () =>
       import(
         /* webpackChunkName: 'problem' */
-        '@/views/group/problem/SubmissionList.vue'
+        '@/views/group/problem/SolutionList.vue'
       ),
     props: true
   },
   {
-    path: 'submission/new',
+    path: 'solution/new',
     component: () =>
       import(
         /* webpackChunkName: 'problem' */
-        '@/views/group/problem/SubmissionCreate.vue'
+        '@/views/group/problem/SolutionCreate.vue'
       ),
     props: true
   },
   {
-    path: 'submission/:submissionId',
+    path: 'solution/:solutionId',
     component: () =>
       import(
         /* webpackChunkName: 'problem' */
-        '@/views/group/problem/Submission.vue'
+        '@/views/group/problem/Solution.vue'
       ),
     props: true
   },

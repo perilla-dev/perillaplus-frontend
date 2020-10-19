@@ -12,7 +12,7 @@
     </v-col>
     <v-col cols="12">
       <v-card flat :loading="loading">
-        <v-data-table :headers="headers" :items="submissions">
+        <v-data-table :headers="headers" :items="solutions">
           <template v-slot:[`item.id`]="{ item }">
             <router-link :to="`${currentURL}/${item.id}`">
               <code>{{ item.id }}</code>
@@ -51,7 +51,7 @@ import Gravatar from '@/components/Gravatar.vue'
     next()
   }
 })
-export default class SubmissionList extends Vue {
+export default class SolutionList extends Vue {
   headers = [
     { text: 'ID', value: 'id' },
     { text: 'state', value: 'state' },
@@ -62,11 +62,11 @@ export default class SubmissionList extends Vue {
 
   loading = false
   problemVm = {} as any
-  submissions = [] as any[]
+  solutions = [] as any[]
 
   created() {
     this.problemVm = getParent(this, Problem)
-    this.$store.commit(M_PATH_PUSH, { text: 'Submission: List', to: this.currentURL })
+    this.$store.commit(M_PATH_PUSH, { text: 'Solution: List', to: this.currentURL })
     this.load()
   }
 
@@ -75,12 +75,12 @@ export default class SubmissionList extends Vue {
   }
 
   get currentURL() {
-    return this.problemVm.currentURL + '/submission'
+    return this.problemVm.currentURL + '/solution'
   }
 
   async load() {
     this.loading = true
-    this.submissions = await api.submission.listByProblem(this.problemVm.problemId)
+    this.solutions = await api.solution.listByProblem(this.problemVm.problemId)
     this.loading = false
   }
 }

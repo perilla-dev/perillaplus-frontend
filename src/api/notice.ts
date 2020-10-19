@@ -1,19 +1,23 @@
 import { BaseAPI } from './base'
 
 export class NoticeAPI extends BaseAPI {
-  get(id: string): Promise<any> {
-    return this.hub.invoke('/notice/get', { id })
+  get(noticeId: string): Promise<any> {
+    return this.hub.invoke('/notice/get', { noticeId })
   }
 
   listByGroup(groupId: string): Promise<any[]> {
     return this.hub.invoke('/notice/listbygroup', { groupId })
   }
 
-  createInGroup(groupId: string, name: string, disp: string, desc: string): Promise<string> {
-    return this.hub.invoke('/notice/createingroup', { groupId, name, disp, desc })
+  listGlobal(): Promise<any[]> {
+    return this.hub.invoke('/notice/listglobal', {})
   }
 
-  update(id: string, name?: string, disp?: string, desc?: string): Promise<void> {
-    return this.hub.invoke('/notice/update', { id, name, disp, desc })
+  createInGroup(groupId: string, name: string, disp: string, desc: string, tags: string): Promise<string> {
+    return this.hub.invoke('/notice/createingroup', { groupId, name, disp, desc, tags })
+  }
+
+  update(noticeId: string, name?: string, disp?: string, desc?: string, tags?: string): Promise<void> {
+    return this.hub.invoke('/notice/update', { noticeId, name, disp, desc, tags })
   }
 }

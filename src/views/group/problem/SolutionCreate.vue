@@ -83,7 +83,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getParent } from '@/plugins/misc'
-import { SubmissionFileDTO } from '@/api/submission'
+import { SolutionFileDTO } from '@/api/solution'
 import { api } from '@/api'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 import Problem from '@/views/group/Problem.vue'
@@ -96,10 +96,10 @@ import Monaco from '@/components/MonacoEditor.vue'
     next()
   }
 })
-export default class SubmissionCreate extends Vue {
+export default class SolutionCreate extends Vue {
   problemVm = {} as any
   data = ''
-  files: SubmissionFileDTO[] = []
+  files: SolutionFileDTO[] = []
 
   file: File | null = null
   path = ''
@@ -108,7 +108,7 @@ export default class SubmissionCreate extends Vue {
 
   created() {
     this.problemVm = getParent(this, Problem)
-    this.$store.commit(M_PATH_PUSH, { text: 'Submission: Create', to: `${this.problemVm.currentURL}/submission/new` })
+    this.$store.commit(M_PATH_PUSH, { text: 'Solution: Create', to: `${this.problemVm.currentURL}/solution/new` })
   }
 
   get problem() {
@@ -128,8 +128,8 @@ export default class SubmissionCreate extends Vue {
 
   async submit() {
     this.loading = true
-    const id = await api.submission.createInProblem(this.problem.id, this.data, this.pub, this.files)
-    this.$router.push(`${this.problemVm.currentURL}/submission/${id}`)
+    const id = await api.solution.createInProblem(this.problem.id, this.data, this.pub, this.files)
+    this.$router.push(`${this.problemVm.currentURL}/solution/${id}`)
     this.loading = false
   }
 

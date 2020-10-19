@@ -1,31 +1,31 @@
 <template>
   <v-card flat :loading="loading">
-    <v-card-title> Submission: {{ submission.id }} </v-card-title>
+    <v-card-title> Solution: {{ solution.id }} </v-card-title>
     <v-divider />
     <v-tabs vertical>
       <v-tab>
         Status
       </v-tab>
-      <v-tab-item> Server state: {{ submission.state }} </v-tab-item>
+      <v-tab-item> Server state: {{ solution.state }} </v-tab-item>
       <v-tab>
         Data
       </v-tab>
       <v-tab-item>
-        <markup :code="submission.data" language="json" />
+        <markup :code="solution.data" language="json" />
       </v-tab-item>
       <v-tab>
         Details
       </v-tab>
       <v-tab-item>
-        <markup :code="submission.details" language="json" />
+        <markup :code="solution.details" language="json" />
       </v-tab-item>
       <v-tab>
         Files
       </v-tab>
       <v-tab-item>
-        <template v-if="submission.files && submission.files.length">
+        <template v-if="solution.files && solution.files.length">
           <v-list>
-            <v-list-item v-for="(file, i) in submission.files" :key="i">
+            <v-list-item v-for="(file, i) in solution.files" :key="i">
               <v-list-item-content>
                 <v-list-item-title>
                   <v-badge :icon="file.pub ? 'mdi-lock-open-outline' : 'mdi-lock-outline'" :color="file.pub ? 'primary' : 'warning'">
@@ -49,7 +49,7 @@
         Raw
       </v-tab>
       <v-tab-item>
-        <markup :code="JSON.stringify(submission, null, '  ')" language="json" />
+        <markup :code="JSON.stringify(solution, null, '  ')" language="json" />
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -70,17 +70,17 @@ import Markup from '@/components/vuetify/Markup.vue'
     next()
   }
 })
-export default class Submission extends Vue {
+export default class Solution extends Vue {
   @Prop()
-  submissionId!: string
+  solutionId!: string
 
   problemVm = {} as any
-  submission = {} as any
+  solution = {} as any
   loading = false
 
   created() {
     this.problemVm = getParent(this, Problem)
-    this.$store.commit(M_PATH_PUSH, { text: `Submission: ${this.submissionId}`, to: this.currentURL })
+    this.$store.commit(M_PATH_PUSH, { text: `Solution: ${this.solutionId}`, to: this.currentURL })
     this.load()
   }
 
@@ -89,12 +89,12 @@ export default class Submission extends Vue {
   }
 
   get currentURL() {
-    return this.problemVm.currentURL + '/submission/' + this.submissionId
+    return this.problemVm.currentURL + '/solution/' + this.solutionId
   }
 
   async load() {
     this.loading = true
-    this.submission = await api.submission.get(this.submissionId)
+    this.solution = await api.solution.get(this.solutionId)
     this.loading = false
   }
 }

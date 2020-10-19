@@ -107,7 +107,16 @@ export default class ProblemAdmin extends Vue {
 
   async submit() {
     this.loading = true
-    await api.problem.update(this.problem.id, this.problem.name, this.problem.disp, this.problem.desc, undefined, this.problem.type, this.problem.pub)
+    await api.problem.update(
+      this.problem.id,
+      this.problem.name,
+      this.problem.disp,
+      this.problem.desc,
+      undefined,
+      this.problem.tags,
+      this.problem.type,
+      this.problem.pub
+    )
     this.loading = false
   }
 

@@ -4,7 +4,7 @@ import store, { M_LOGIN, M_LOGOUT } from '@/store'
 import { NoticeAPI } from './notice'
 import { ProblemAPI } from './problem'
 import { FileAPI } from './file'
-import { SubmissionAPI } from './submission'
+import { SolutionAPI } from './solution'
 
 const kToken = 'access-token'
 const kTokenId = 'token-id'
@@ -52,7 +52,7 @@ export class APIHub {
   group
   notice
   problem
-  submission
+  solution
 
   vuex
   state
@@ -70,7 +70,7 @@ export class APIHub {
     this.group = new GroupAPI(this)
     this.notice = new NoticeAPI(this)
     this.problem = new ProblemAPI(this)
-    this.submission = new SubmissionAPI(this)
+    this.solution = new SolutionAPI(this)
   }
 
   async invoke(url: string, body: any) {

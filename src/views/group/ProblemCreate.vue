@@ -37,6 +37,7 @@ export default class ProblemCreate extends Vue {
   disp = ''
   desc = ''
   type = ''
+  tags = [] as string[]
   pub = true
 
   created() {
@@ -45,7 +46,7 @@ export default class ProblemCreate extends Vue {
 
   async submit() {
     this.loading = true
-    const id = await api.problem.createInGroup(this.groupId, this.name, this.disp, this.desc, this.type, this.pub)
+    const id = await api.problem.createInGroup(api.state.userId!, this.groupId, this.name, this.disp, this.desc, this.tags.join(', '), this.type, this.pub)
     toastSuccess('Created problem ' + this.name)
     this.$router.push(`/group/${this.groupId}/problem/${id}`)
     this.loading = false

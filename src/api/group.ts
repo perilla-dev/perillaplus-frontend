@@ -7,8 +7,8 @@ export enum MemberRole {
 }
 
 export class GroupAPI extends BaseAPI {
-  get(id: string): Promise<any> {
-    return this.hub.invoke('/group/get', { id })
+  get(groupId: string): Promise<any> {
+    return this.hub.invoke('/group/get', { groupId })
   }
 
   find(name: string): Promise<any> {
