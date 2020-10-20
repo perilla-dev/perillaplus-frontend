@@ -2,14 +2,12 @@
   <v-card>
     <v-card-text>
       <v-text-field label="name" v-model="name" />
-      <v-text-field label="display name" v-model="disp" />
-      <v-textarea label="content" v-model="desc" />
-      <v-text-field label="type" v-model="type" />
       <v-switch label="public" v-model="pub" :prepend-icon="pub ? 'mdi-lock-open-outline' : 'mdi-lock-outline'" />
+      <type-selector v-model="typeId" />
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn @click="submit" :loading="loading" color="primary">
+      <v-btn @click="submit" :loading="loading" :disabled="!canSubmit" color="primary">
         Submit
       </v-btn>
     </v-card-actions>
@@ -21,8 +19,10 @@ import { api } from '@/api'
 import { toastSuccess } from '@/plugins/izitoast'
 import { M_PATH_POP, M_PATH_PUSH } from '@/store'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import TypeSelector from '@/components/TypeSelector.vue'
 
 @Component({
+  components: { TypeSelector },
   beforeRouteLeave(to, from, next) {
     this.$store.commit(M_PATH_POP)
     next()
@@ -34,11 +34,12 @@ export default class ProblemCreate extends Vue {
 
   loading = false
   name = ''
-  disp = ''
-  desc = ''
-  type = ''
-  tags = [] as string[]
+  typeId = ''
   pub = true
+
+  get canSubmit() {
+    return this.name && this.typeId
+  }
 
   created() {
     this.$store.commit(M_PATH_PUSH, { text: 'Create Problem', to: `/group/${this.groupId}/problem/new` })
@@ -46,7 +47,7 @@ export default class ProblemCreate extends Vue {
 
   async submit() {
     this.loading = true
-    const id = await api.problem.createInGroup(api.state.userId!, this.groupId, this.name, this.disp, this.desc, this.tags.join(', '), this.type, this.pub)
+    const id = await api.problem.createInGroup(api.state.userId!, this.groupId, this.typeId, this.name, this.pub)
     toastSuccess('Created problem ' + this.name)
     this.$router.push(`/group/${this.groupId}/problem/${id}`)
     this.loading = false

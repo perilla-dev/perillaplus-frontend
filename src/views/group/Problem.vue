@@ -8,8 +8,8 @@
         <div class="subtitle-1">
           <code>{{ problem.name }}</code>
         </div>
-        <div class="subtitle-1">
-          <code>{{ problem.type }}</code>
+        <div class="subtitle-1" v-if="problem.type">
+          <code>{{ problem.type.name }}</code>
         </div>
       </div>
     </v-card-title>
