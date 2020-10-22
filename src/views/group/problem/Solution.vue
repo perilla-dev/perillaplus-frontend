@@ -6,7 +6,12 @@
       <v-tab>
         Status
       </v-tab>
-      <v-tab-item> Server state: {{ solution.state }} </v-tab-item>
+      <v-tab-item>
+        <v-card-text>
+          Server state: {{ solution.state }} <br />
+          Judger status: {{ solution.status }} <br />
+        </v-card-text>
+      </v-tab-item>
       <v-tab>
         Data
       </v-tab>
@@ -51,6 +56,18 @@
       <v-tab-item>
         <markup :code="JSON.stringify(solution, null, '  ')" language="json" />
       </v-tab-item>
+      <template v-if="problemAdmin">
+        <v-tab>
+          Admin
+        </v-tab>
+        <v-tab-item>
+          <v-card-actions>
+            <v-btn color="primary" @click="rejudge" :disabled="loading">
+              Rejudge
+            </v-btn>
+          </v-card-actions>
+        </v-tab-item>
+      </template>
     </v-tabs>
   </v-card>
 </template>
@@ -92,9 +109,19 @@ export default class Solution extends Vue {
     return this.problemVm.currentURL + '/solution/' + this.solutionId
   }
 
+  get problemAdmin() {
+    return this.problemVm.problemAdmin
+  }
+
   async load() {
     this.loading = true
     this.solution = await api.solution.get(this.solutionId)
+    this.loading = false
+  }
+
+  async rejudge() {
+    this.loading = true
+    await api.solution.rejudge(this.solutionId)
     this.loading = false
   }
 }

@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Markup from '@/components/vuetify/Markup.vue'
 import { getParent } from '@/plugins/misc'
+import Markup from '@/components/vuetify/Markup.vue'
 import Problem from '@/views/group/Problem.vue'
 
 @Component({ components: { Markup } })

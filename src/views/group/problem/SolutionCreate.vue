@@ -128,7 +128,7 @@ export default class SolutionCreate extends Vue {
 
   async submit() {
     this.loading = true
-    const id = await api.solution.createInProblem(this.problem.id, this.data, this.pub, this.files)
+    const id = await api.solution.createInProblem(api.state.userId!, this.problem.id, this.data, this.pub, this.files)
     this.$router.push(`${this.problemVm.currentURL}/solution/${id}`)
     this.loading = false
   }

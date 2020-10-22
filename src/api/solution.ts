@@ -21,7 +21,11 @@ export class SolutionAPI extends BaseAPI {
     return this.hub.invoke('/solution/listbyproblem', { problemId })
   }
 
-  createInProblem(problemId: string, data: string, pub: boolean, files: SolutionFileDTO[]): Promise<string> {
-    return this.hub.invoke('/solution/createinproblem', { problemId, data, pub, files })
+  createInProblem(userId: string, problemId: string, data: string, pub: boolean, files: SolutionFileDTO[]): Promise<string> {
+    return this.hub.invoke('/solution/createinproblem', { userId, problemId, data, pub, files })
+  }
+
+  rejudge(solutionId: string): Promise<any> {
+    return this.hub.invoke('/solution/rejudge', { solutionId })
   }
 }
